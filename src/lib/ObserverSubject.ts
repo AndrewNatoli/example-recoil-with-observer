@@ -22,7 +22,7 @@ export class ObserverSubject {
   }
 
   public detach(observerToRemove: Observer) {
-    this.observers.filter((observer) => observerToRemove === observer);
+    this.observers = this.observers.filter((observer) => observerToRemove !== observer);
     this.log('Detached', observerToRemove);
   }
 
