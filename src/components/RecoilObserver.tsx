@@ -1,12 +1,23 @@
-import * as React from 'react';
-import { useSetRecoilState } from 'recoil';
-import defaultSubject from '../lib/defaultSubject';
-import { TOPIC_GET_PRODUCT_DETAIL, TOPIC_GET_PRODUCT_LIST } from '../lib/observerTopics';
-import { productDetailState, productListState } from '../lib/recoilState';
+import * as React from "react";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import defaultSubject from "../lib/defaultSubject";
+import {
+  TOPIC_GET_PRODUCT_DETAIL,
+  TOPIC_GET_PRODUCT_LIST,
+} from "../lib/observerTopics";
+import { productDetailState, productListState } from "../lib/recoilState";
 
 export const RecoilObserver = () => {
-  const setProductList = { topic: TOPIC_GET_PRODUCT_LIST, cb: useSetRecoilState(productListState) };
-  const setProductDetail = { topic: TOPIC_GET_PRODUCT_DETAIL, cb: useSetRecoilState(productDetailState) };
+  const setProductList = {
+    topic: TOPIC_GET_PRODUCT_LIST,
+    cb: useSetRecoilState(productListState),
+    state: useRecoilValue(productListState),
+  };
+  const setProductDetail = {
+    topic: TOPIC_GET_PRODUCT_DETAIL,
+    cb: useSetRecoilState(productDetailState),
+    state: useRecoilValue(productDetailState),
+  };
 
   const observers = [setProductList, setProductDetail];
 
