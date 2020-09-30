@@ -1,15 +1,16 @@
 export interface Observer {
   topic: string;
   cb: (payload: any) => void;
+  state: any;
 }
 
 export class ObserverSubject {
   private observers: Observer[] = [];
-  private name = '';
+  private name = "";
 
   constructor(name: string) {
     this.name = name;
-    this.log('init');
+    this.log("init");
   }
 
   private log(...message: any) {
@@ -18,19 +19,21 @@ export class ObserverSubject {
 
   public attach(observer: Observer) {
     this.observers.push(observer);
-    this.log('Attached', observer);
+    this.log("Attached", observer);
   }
 
   public detach(observerToRemove: Observer) {
-    this.observers = this.observers.filter((observer) => observerToRemove !== observer);
-    this.log('Detached', observerToRemove);
+    this.observers = this.observers.filter(
+      (observer) => observerToRemove !== observer
+    );
+    this.log("Detached", observerToRemove);
   }
 
   public notify(topic: string, payload: any) {
     let countNotified = 0;
     this.observers.forEach((observer: Observer) => {
       if (observer.topic === topic) {
-        observer.cb(payload);
+        observer.cb({ ...observer.state, ...payload });
         countNotified += 1;
       }
     });
